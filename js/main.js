@@ -174,14 +174,15 @@ createRestaurantHTML = (restaurant) => {
   let color = restaurant.is_favorite ? 'yellow' : 'black';
   like.style = `font-size: 24px; color: ${color}; background: transparent; border: none;`;
   like.addEventListener('click', () => {
-    fetch(`${DBHelper.DATABASE_URL}/${restaurant.id}/?is_favorite=true`, {method: 'PUT'}).then(
+    let is_favorite = !restaurant.is_favorite;
+    fetch(`${DBHelper.DATABASE_URL}/restaurants/${restaurant.id}/?is_favorite=${is_favorite}`, {method: 'PUT'}).then(
     response => {
-        console.log(response);
         return response.json();
     }).then(
       restaurant => {
-        let color = restaurant.is_favorite ? 'yellow' : 'black';
+        let color = restaurant.is_favorite === "true" ? 'yellow' : 'black';
         like.style = `font-size: 24px; color: ${color};  background: transparent; border: none;`;
+        updateRestaurants();
       });
   });
   li.append(like);

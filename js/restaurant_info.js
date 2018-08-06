@@ -1,4 +1,5 @@
 let restaurant;
+let reviews;
 var map;
 
 /**
@@ -19,6 +20,10 @@ window.initMap = () => {
     }
   });
 }
+
+window.addEventListener('online', () => {
+  DBHelper.sendDeferredReviews();
+});
 
 /**
  * Get current restaurant from page URL.
@@ -68,7 +73,14 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  DBHelper.fetchReviewsByRestaurantId(restaurant.id, (error, reviews) => {
+    self.reviews = reviews;
+    if (!reviews) {
+      console.error(error);
+      return;
+    }
+    fillReviewsHTML();
+  });
 }
 
 /**
@@ -94,7 +106,8 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.reviews) => {
+  console.log(reviews);
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
@@ -111,7 +124,72 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.addEventListener('submit', event => {
+    DBHelper.saveReview(event, (error, review) => {
+      if (review) {
+        reviews.push(review);
+        console.log(reviews);
+        resetReviews(reviews);
+        fillReviewsHTML();
+      } else {
+        console.error(error);
+        return;
+      }
+    });
+  });
+  form.action = `${DBHelper.DATABASE_URL}/reviews/`;
+  const inputRestaurantId = document.createElement('input');
+  inputRestaurantId.type = 'hidden';
+  inputRestaurantId.name = 'restaurant_id';
+  inputRestaurantId.id = 'restaurant_id';
+  inputRestaurantId.value = self.restaurant.id;
+  const labelName = document.createElement('label');
+  labelName.for = 'name';
+  const inputName = document.createElement('input');
+  inputName.id = 'name'
+  inputName.name = 'name';
+  inputName.type = 'text';
+  inputName.placeholder = 'Your name';
+  const labelRating = document.createElement('label');
+  labelRating.for = "rating";
+  const inputRating = document.createElement('input');
+  inputRating.id = 'rating';
+  inputRating.name= 'rating';
+  inputRating.type='number';
+  const labelComments = document.createElement('label');
+  labelComments.for = 'comments';
+  const comments = document.createElement('textarea');
+  comments.id = 'comments';
+  comments.name = 'comments';
+  const submit = document.createElement('button');
+  submit.type = 'submit';
+  submit.value = 'Add review';
+  form.appendChild(inputRestaurantId);
+  form.appendChild(labelName);
+  form.appendChild(inputName);
+  form.appendChild(labelRating);
+  form.appendChild(inputRating);
+  form.appendChild(labelComments);
+  form.appendChild(comments);
+  form.appendChild(submit);
+  container.appendChild(form);
 }
+
+resetReviews = (reviews) => {
+  // Remove all restaurants
+  self.reviews = [];
+  const container = document.getElementById('reviews-container');
+  container.innerHTML = '';
+  const ul = document.createElement('ul');
+  ul.id = 'reviews-list';
+
+  container.appendChild(ul);
+
+  self.reviews = reviews;
+}
+
 
 /**
  * Create review HTML and add it to the webpage.
@@ -123,7 +201,8 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  let d = new Date(review.updatedAt);
+  date.innerHTML = d.toDateString();
   li.appendChild(date);
 
   const rating = document.createElement('p');
