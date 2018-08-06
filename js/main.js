@@ -171,18 +171,17 @@ createRestaurantHTML = (restaurant) => {
   const like = document.createElement('button');
   like.value= restaurant.id;
   like.innerHTML = "♥";
-  let color = restaurant.is_favorite ? 'yellow' : 'black';
+  let color = restaurant.is_favorite == "true" ? 'yellow' : 'black';
   like.style = `font-size: 24px; color: ${color}; background: transparent; border: none;`;
   like.addEventListener('click', () => {
-    let is_favorite = !restaurant.is_favorite;
+    let is_favorite = color === 'black';
     fetch(`${DBHelper.DATABASE_URL}/restaurants/${restaurant.id}/?is_favorite=${is_favorite}`, {method: 'PUT'}).then(
     response => {
         return response.json();
     }).then(
-      restaurant => {
-        let color = restaurant.is_favorite === "true" ? 'yellow' : 'black';
+      newRestaurant => {
+        color = newRestaurant.is_favorite === "true" ? 'yellow' : 'black';
         like.style = `font-size: 24px; color: ${color};  background: transparent; border: none;`;
-        updateRestaurants();
       });
   });
   li.append(like);
