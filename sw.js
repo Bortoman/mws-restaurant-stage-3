@@ -13,9 +13,8 @@ self.addEventListener('install', function(event) {
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
         '/index.html',
-        'js/main.js',
-        'js/dbhelper.js',
-        'js/restaurant_info.js',
+        'js/index.js',
+        'js/restaurant.js',
         'css/styles.css'
       ]);
     })
@@ -60,7 +59,7 @@ self.addEventListener('fetch', function(event) {
             var responseToCache = response.clone();
             // Caching response for google maps and saving only current frame
             caches.open(mapCache).then(function(cache) {
-                //cache.put(event.request, responseToCache);
+                cache.put(event.request, responseToCache);
               });
             return response;
           }

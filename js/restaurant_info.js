@@ -124,6 +124,9 @@ fillReviewsHTML = (reviews = self.reviews) => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
+  const h3 = document.createElement('h3');
+  h3.innerHTML = 'Insert your review:';
+  container.appendChild(h3);
   const form = document.createElement('form');
   form.method = 'POST';
   form.addEventListener('submit', event => {
@@ -140,6 +143,7 @@ fillReviewsHTML = (reviews = self.reviews) => {
     });
   });
   form.action = `${DBHelper.DATABASE_URL}/reviews/`;
+  form.id = 'add_review_form';
   const inputRestaurantId = document.createElement('input');
   inputRestaurantId.type = 'hidden';
   inputRestaurantId.name = 'restaurant_id';
@@ -147,25 +151,34 @@ fillReviewsHTML = (reviews = self.reviews) => {
   inputRestaurantId.value = self.restaurant.id;
   const labelName = document.createElement('label');
   labelName.for = 'name';
+  labelName.innerHTML = 'Your name:';
   const inputName = document.createElement('input');
   inputName.id = 'name'
   inputName.name = 'name';
   inputName.type = 'text';
   inputName.placeholder = 'Your name';
+  inputName.required = 'true';
   const labelRating = document.createElement('label');
   labelRating.for = "rating";
+  labelRating.innerHTML = "Rating:";
   const inputRating = document.createElement('input');
   inputRating.id = 'rating';
   inputRating.name= 'rating';
   inputRating.type='number';
+  inputRating.placeholder = 'Rating from 1 to 5';
+  inputRating.required = 'true';
   const labelComments = document.createElement('label');
   labelComments.for = 'comments';
+  labelComments.innerHTML = 'Comments:';
   const comments = document.createElement('textarea');
   comments.id = 'comments';
   comments.name = 'comments';
+  comments.placeholder = 'Your comments here!';
+  comments.required = 'true';
   const submit = document.createElement('button');
   submit.type = 'submit';
   submit.value = 'Add review';
+  submit.innerHTML = "Add review";
   form.appendChild(inputRestaurantId);
   form.appendChild(labelName);
   form.appendChild(inputName);
