@@ -13,8 +13,10 @@ self.addEventListener('install', function(event) {
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
         '/index.html',
-        'js/index.js',
-        'js/restaurant.js',
+        'js/dbhelper.js',
+        'js/main.js',
+        'js/idb.js',
+        'js/restaurant_info.js',
         'css/styles.css'
       ]);
     })
