@@ -142,6 +142,7 @@ fillReviewsHTML = (reviews = self.reviews) => {
   container.appendChild(ul);
   const h3 = document.createElement('h3');
   h3.innerHTML = 'Insert your review:';
+  h3.id = 'add_review_title';
   container.appendChild(h3);
   const form = document.createElement('form');
   form.method = 'POST';
