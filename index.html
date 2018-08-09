@@ -20,7 +20,9 @@
 
   <main id="maincontent">
     <section id="map-container" >
-          <div id="map" role='application'></div>
+          <div id="map" role='application'>
+            <img id="staticMap" width="100%" height="100%" alt="static New York map" style="object-fit: cover" src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=1&size=1920x1080&maptype=roadmap&key=AIzaSyCaMDihxIfFPAoDX5tKJzF3w31-jqzVmog&signature=Dg7BaRGW_6j5LkxQgf6Nx9SvBu0="/>
+          </div>
     </section>
     <section id="restaurant-list-container">
       <div class="filter-options">
@@ -41,7 +43,6 @@
   <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPNrZ0pb8b1SckgtM9vMumf--fb8t3kkY&libraries=places&callback=initMap"></script>
 
 
   <footer id="footer">

@@ -3,6 +3,23 @@ let reviews;
 var map;
 
 /**
+ * Fetch neighborhoods and cuisines as soon as the page is loaded.
+ */
+document.addEventListener('DOMContentLoaded', (event) => {
+  fetchRestaurantFromURL((error, restaurant) => {
+    if (error) { // Got an error!
+      console.error(error);
+    } else {
+      fillBreadcrumb();
+      src1='https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=12&size=600x300&maptype=roadmap'
+      keySig='&key=AIzaSyCaMDihxIfFPAoDX5tKJzF3w31-jqzVmog';
+      markerString = `&markers=color:red%7Clabel:S%7C${restaurant.latlng.lat},${restaurant.latlng.lng}`;
+      let staticMap = document.getElementById('staticMap');
+      staticMap.src = src1 + markerString + keySig;
+    }
+  });
+});
+/**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
@@ -10,13 +27,12 @@ window.initMap = () => {
     if (error) { // Got an error!
       console.error(error);
     } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
       fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      src1='https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=12&size=600x300&maptype=roadmap'
+      keySig='&key=AIzaSyCaMDihxIfFPAoDX5tKJzF3w31-jqzVmog';
+      markerString = `&markers=color:red%7Clabel:S%7C${restaurant.latlng.lat},${restaurant.latlng.lng}`;
+      let staticMap = document.getElementById('staticMap');
+      staticMap.src = src1 + markerString + keySig;
     }
   });
 }

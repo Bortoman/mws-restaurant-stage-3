@@ -12,6 +12,7 @@ if(navigator.serviceWorker) {
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();
 });
 
 /**
@@ -190,15 +191,16 @@ createRestaurantHTML = (restaurant) => {
 }
 
 /**
- * Add markers for current restaurants to the map.
- */
+https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyCaMDihxIfFPAoDX5tKJzF3w31-jqzVmog&signature=Dg7BaRGW_6j5LkxQgf6Nx9SvBu0= */
 addMarkersToMap = (restaurants = self.restaurants) => {
+  markerString = '';
+  src1='https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=12&size=600x300&maptype=roadmap'
+  keySig='&key=AIzaSyCaMDihxIfFPAoDX5tKJzF3w31-jqzVmog';
   restaurants.forEach(restaurant => {
     // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url
-    });
-    self.markers.push(marker);
+    markerString = markerString + `&markers=color:red%7Clabel:S%7C${restaurant.latlng.lat},${restaurant.latlng.lng}`;
   });
+  let staticMap = document.getElementById('staticMap');
+  staticMap.src = src1 + markerString + keySig;
+  console.log(staticMap.src);
 }

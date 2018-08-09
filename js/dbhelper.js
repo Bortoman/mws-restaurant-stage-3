@@ -71,10 +71,10 @@ class DBHelper {
       });
   }
 
-  static fetchReviews(callback) {
+  static fetchReviewsByRestaurantId(id, callback) {
     if (!('indexedDB' in window)) {
       console.log('IndexedDB is not supported on this browser');
-      fetch(`${DBHelper.DATABASE_URL}/reviews`).then(response => {
+      fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`).then(response => {
         const reviews = response.json();
         return reviews;
       }).then(reviews => {
@@ -89,11 +89,12 @@ class DBHelper {
         var tx = db.transaction('reviews', 'readonly');
         var dbStore = tx.objectStore('reviews');
         dbStore.getAll().then(idbData => {
+          idbData = idbData.filter(idbDato => idbDato.restaurant_id == id);
           if(idbData && idbData.length > 0) {
             // JSON data are already present in IDB
             callback(null, idbData);
           } else {
-            fetch(`${DBHelper.DATABASE_URL}/reviews`).then(response => {
+            fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`).then(response => {
               return response.json();
             }).then(reviews => {
               var tx = db.transaction('reviews', 'readwrite');
@@ -103,7 +104,11 @@ class DBHelper {
               });
               dbStore.getAll().then(reviews => {
                 // Get the restaurants from the IDB now
-                callback(null, reviews);
+                reviews = reviews.filter(r => r.restaurant_id == id);
+                if(reviews && reviews.length > 0) {
+                  // JSON data are already present in IDB
+                  callback(null, reviews);
+                }
               });
             }).catch(error => {
               callback(error, null);
@@ -223,21 +228,6 @@ class DBHelper {
           callback(null, restaurant);
         } else { // Restaurant does not exist in the database
           callback('Restaurant does not exist', null);
-        }
-      }
-    });
-  }
-  static fetchReviewsByRestaurantId(id, callback) {
-    // fetch all reviews with proper error handling.
-    DBHelper.fetchReviews((error, reviews) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const revs = reviews.filter(r => r.restaurant_id == id);
-        if (revs) { // Got the reviews
-          callback(null, revs);
-        } else { // Restaurant does not have reviews yet
-          callback('Restaurant does not have reviews yet', null);
         }
       }
     });

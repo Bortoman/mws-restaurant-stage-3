@@ -36,7 +36,9 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map" role='application'></div>
+      <div id="map" role='application'>
+        <img style="object-fit: cover" id="staticMap" width="100%" height="100%" alt="static New York map" src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyCaMDihxIfFPAoDX5tKJzF3w31-jqzVmog&signature=1wVx13VCHFtMbKJ4cWhkQ40IcS0=" width="100%"/>
+      </div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
@@ -70,7 +72,6 @@
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPNrZ0pb8b1SckgtM9vMumf--fb8t3kkY&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 
 </body>

@@ -724,6 +724,51 @@
         "createdAt": "2018-08-07T01:38:40.078Z",
         "updatedAt": "2018-08-07T01:38:40.078Z",
         "id": 54
+      },
+      {
+        "name": "Alessandro",
+        "rating": "1",
+        "comments": "dddd",
+        "restaurant_id": "1",
+        "createdAt": "2018-08-09T02:48:28.771Z",
+        "updatedAt": "2018-08-09T02:48:28.771Z",
+        "id": 55
+      },
+      {
+        "name": "Alessandro",
+        "rating": "5",
+        "comments": "Very good restaurant!!",
+        "restaurant_id": "2",
+        "createdAt": "2018-08-09T03:00:05.539Z",
+        "updatedAt": "2018-08-09T03:00:05.539Z",
+        "id": 56
+      },
+      {
+        "name": "Alessandro",
+        "rating": "1",
+        "comments": "💖",
+        "restaurant_id": "3",
+        "createdAt": "2018-08-09T03:07:18.144Z",
+        "updatedAt": "2018-08-09T03:07:18.144Z",
+        "id": 57
+      },
+      {
+        "name": "Alessandro",
+        "rating": "1",
+        "comments": "Ciao",
+        "restaurant_id": "3",
+        "createdAt": "2018-08-09T03:14:05.356Z",
+        "updatedAt": "2018-08-09T03:14:05.356Z",
+        "id": 58
+      },
+      {
+        "name": "Alessandro",
+        "rating": "5",
+        "comments": "Great Hamburgerss!! 😜",
+        "restaurant_id": "7",
+        "createdAt": "2018-08-09T03:33:11.945Z",
+        "updatedAt": "2018-08-09T03:33:11.945Z",
+        "id": 59
       }
     ]
   },
@@ -779,7 +824,7 @@
       "id": 10
     },
     "reviews": {
-      "id": 54
+      "id": 59
     }
   }
 }
